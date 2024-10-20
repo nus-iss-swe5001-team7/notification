@@ -12,7 +12,7 @@ tar -xzf kafka_2.13-3.x.tgz
 
 cd kafka_2.13-3.x
 
-bin/zookeeper-server-start.sh config/zookeeper.properties
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 
 ## Start the Kafka broker service
 
@@ -20,4 +20,8 @@ Open another terminal to start
 
 cd kafka_2.13-3.x
 
-bin/kafka-server-start.sh config/server.properties
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+## Create Kafka Topic
+
+.\bin\windows\kafka-topics.bat --create --topic groupFoodOrderPlatform --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1

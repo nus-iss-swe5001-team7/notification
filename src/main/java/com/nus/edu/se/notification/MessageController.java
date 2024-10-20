@@ -1,5 +1,7 @@
 package com.nus.edu.se.notification;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +21,13 @@ public class MessageController {
     }
 
     @PostMapping
-    public void publish(@RequestBody MessageRequest request) {
-        Message message = new Message(request.message(), LocalDateTime.now());
+    public ResponseEntity<String> publish(@RequestBody MessageRequest request) {
+        Message message = new Message(request, LocalDateTime.now());
         kafkaTemplate.send("groupFoodOrderPlatform", message);
+
+        String response = String.format("Notification sent for User ID: %s, Order ID: %s, Status: %s",
+                request.userId(), request.orderId(), request.status());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
