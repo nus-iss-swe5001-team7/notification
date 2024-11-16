@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("https://d20bde94kgtbik.cloudfront.net")
+                .setAllowedOrigins("https://d1tdd75mfyl36s.cloudfront.net")
                 .withSockJS();
     }
 }
