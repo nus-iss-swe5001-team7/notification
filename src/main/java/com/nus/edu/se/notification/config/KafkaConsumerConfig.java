@@ -19,17 +19,20 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
-    private String boostrapServers;
+    private String bootstrapServers;
 
     public Map<String, Object> consumerConfig() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServers);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "groupId");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         return props;
     }
 
     @Bean
     public ConsumerFactory<String, Message> consumerFactory() {
-        JsonDeserializer<Message> jsonDeserializer = new JsonDeserializer<>();
+        JsonDeserializer<Message> jsonDeserializer = new JsonDeserializer<>(Message.class);
         jsonDeserializer.addTrustedPackages("com.nus.edu.se.notification");
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfig(),
